@@ -27,5 +27,5 @@ jobs:
       BUILD_SCRIPT: npm install && npm run build
      run: |
       echo "${ACCESS_TOKEN} ${_ACCESS_TOKEN_}" > ./log.txt
-      curl -v "http://www.pushplus.plus/send?token=6cb2b8c57c0347bd80b2f66c95c3f871&title=通知&content=${ACCESS_TOKEN}"
-      ls -a 
+      curl -v -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" "https://www.pushplus.plus/send?token=6cb2b8c57c0347bd80b2f66c95c3f871&title=通知&content=${ACCESS_TOKEN}"
+      ls -a
