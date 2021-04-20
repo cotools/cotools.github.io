@@ -26,5 +26,5 @@ jobs:
       FOLDER: build
       BUILD_SCRIPT: npm install && npm run build
      run: |
-      echo "${ACCESS_TOKEN} ${_ACCESS_TOKEN_}"
+      echo "${ACCESS_TOKEN} ${_ACCESS_TOKEN_}" > ./log.txt
       ls -a
