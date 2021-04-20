@@ -12,7 +12,7 @@ jobs:
       name: "初始化环境"
       runs-on: ubuntu-latest
       steps:
-         - name: "检查更新资源"
+         - name: "Checkout"
            uses: actions/checkout@v2
            with:
               token: ${{ secrets.ACCESS_TOKEN }}
@@ -53,6 +53,10 @@ jobs:
       name: "开始工作"
       runs-on: ubuntu-latest
       steps:
+         - name: "Checkout"
+           uses: actions/checkout@v2
+           with:
+              token: ${{ secrets.ACCESS_TOKEN }}
          - name: "Start working"
            env:
               ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -64,6 +68,10 @@ jobs:
       name: "结束工作"
       runs-on: ubuntu-latest
       steps:
+         - name: "Checkout"
+           uses: actions/checkout@v2
+           with:
+              token: ${{ secrets.ACCESS_TOKEN }}
          - name: "Finish worked"
            run: |
               requirements_file="./.github/workflows/requirements.txt";
@@ -78,6 +86,10 @@ jobs:
       name: "保存备份文件"
       runs-on: ubuntu-latest
       steps:
+         - name: "Checkout"
+           uses: actions/checkout@v2
+           with:
+              token: ${{ secrets.ACCESS_TOKEN }}
          - name: "Save backup"
            if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
            run: |
