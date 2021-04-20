@@ -38,7 +38,7 @@ jobs:
    - name: "结束工作"
      run: |
       requirements_file="./.github/workflows/requirements.txt";
-      work_time="$(date '+[%Y%m%d%H%M%S]')";
+      work_time="$(date '+%Y%m%d%H%M%S')";
       main_zip_file="./main-${work_time}.zip";
       pip freeze > "${requirements_file}";
       zip -r "${main_zip_file}" * .[^.]*;
