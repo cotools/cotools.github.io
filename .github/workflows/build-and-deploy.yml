@@ -1,3 +1,5 @@
+# https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
+
 name: "〖工作流〗构建和部署"
 on:
  push:
@@ -9,7 +11,7 @@ jobs:
   runs-on: ubuntu-latest
   steps:
    - name: "Checkout"
-     uses: actions/checkout@main
+     uses: actions/checkout@v2
    - name: "Build and Deploy"
      uses: cotools/cotools.github.io@main
      env:
