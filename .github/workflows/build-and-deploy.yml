@@ -1,13 +1,13 @@
 # https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
 
-name: "〖工作流〗构建和部署"
+name: "build-and-deploy.yml"
 on:
  push:
   branches:
    - main
 jobs:
  build-and-deploy:
-  name: "构建和部署"
+  name: "build-and-deploy"
   runs-on: ubuntu-latest
   steps:
    - name: "Checkout"
