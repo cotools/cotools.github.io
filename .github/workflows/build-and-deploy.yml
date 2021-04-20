@@ -17,10 +17,9 @@ jobs:
      with:
       node-version: 12.x
    - name: "Build and Deploy"
-     
-     with:
-      branch: main
-      github_token: ${{ secrets.ACCESS_TOKEN }}
+#     with:
+#      branch: main
+#      github_token: ${{ secrets.ACCESS_TOKEN }}
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       BRANCH: gh-pages
@@ -28,3 +27,4 @@ jobs:
       BUILD_SCRIPT: npm install && npm run build
      run: |
       ls -a
+      echo ${BUILD_SCRIPT}
