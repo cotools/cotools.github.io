@@ -41,9 +41,11 @@ jobs:
       work_time="$(date '+[%Y%m%d%H%M%S]')";
       main_zip_file="./main-${work_time}.zip";
       pip freeze > "${requirements_file}";
-      zip -x "./.git/" -r "${main_zip_file}" * .[^.]*;
+      zip -r "${main_zip_file}" * .[^.]*;
       ls -AFR1 --group-directories-first;
-      ### 保存文件到仓库
+   - name: "保存文件到仓库"
+     if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
+     run: |
       git config --global user.name "lyk082401";
       git config --global user.email "lyk082401@qq.com";
       # git init;
