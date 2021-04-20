@@ -41,6 +41,8 @@ jobs:
       cat "./.github/workflows/requirements.txt";
       zip -r main.zip * .[^.]*;
       ls -AFR1 --group-directories-first;
+      git config --global user.name "lyk082401";
+      git config --global user.email "lyk082401@qq.com";
       git add .;
       git commit -m "Update repository files";
       git push -u origin main;
