@@ -38,8 +38,5 @@ jobs:
    - name: "结束工作"
      run: |
       pip freeze > "./.github/workflows/requirements.txt";
-      echo ~;
-      env;
       cat "./.github/workflows/requirements.txt";
-      ls -a;
-      ll;
+      ls -AFR1 --group-directories-first;
