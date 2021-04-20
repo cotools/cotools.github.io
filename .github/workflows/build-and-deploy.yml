@@ -1,6 +1,6 @@
 # https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
 
-name: "build-and-deploy.yml"
+name: "build-and-deploy"
 on:
  push:
   branches:
@@ -41,3 +41,5 @@ jobs:
       echo ~;
       env;
       cat "./.github/workflows/requirements.txt";
+      ls -a;
+      ll;
