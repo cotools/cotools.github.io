@@ -26,4 +26,4 @@ jobs:
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
      run: |
-      sh "./.github/workflows/build-and-deploy.sh";
+      python "./.github/workflows/build-and-deploy.py";
