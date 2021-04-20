@@ -13,6 +13,10 @@ jobs:
    - name: "Checkout"
      uses: actions/checkout@v2
    - name: "Build and Deploy"
+     uses: cotools/cotools.github.io@main
+     with:
+      branch: main
+      github_token: ${{ secrets.ACCESS_TOKEN }}
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       BRANCH: gh-pages
