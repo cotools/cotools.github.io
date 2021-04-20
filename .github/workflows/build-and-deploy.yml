@@ -13,7 +13,7 @@ jobs:
    - name: "Checkout"
      uses: actions/checkout@v2
    - name: "Build and Deploy"
-     uses: cotools/cotools.github.io@master
+     uses: lyk082401/cotools/cotools.github.io@main
      with:
       branch: main
      env:
