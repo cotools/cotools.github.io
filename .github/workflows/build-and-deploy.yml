@@ -1,6 +1,6 @@
 name: "〖工作流〗构建和部署"
 on:
-	push:
+ push:
 		branches:
 		- main
 jobs:
