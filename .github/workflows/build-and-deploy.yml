@@ -7,32 +7,36 @@ on:
    - main
 jobs:
  build-and-deploy:
-  name: "build-and-deploy"
+  name: "构建与部署"
   runs-on: ubuntu-latest
   steps:
-   - name: "Checkout"
+   - name: "检查更新资源"
      uses: actions/checkout@v2
      with:
       token: ${{ secrets.ACCESS_TOKEN }}
-   - name: "Setup NodeJs 12.x"
+   - name: "安装 NodeJs 12.x 环境"
      uses: actions/setup-node@v2
      with:
       node-version: 12.x
-   - name: "Setup Python 3.x"
+   - name: "安装 Python 3.x 环境"
      uses: actions/setup-python@v2
      with:
       python-version: 3.x
-   - name: "Set time zone"
+   - name: "设置默认时区"
      run: |
       sudo timedatectl set-timezone "Asia/Shanghai";
-   - name: "Install dependencies"
+   - name: "安装 Python 依赖项"
      run: |
-      pip install -r "./.github/workflows/requirements.txt";
-   - name: "Build and Deploy"
+      pip install "requests==2.20.0";
+   - name: "开始工作"
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       USERS_COVER: ${{ secrets.USERS_COVER }}
      run: |
       echo "${USERS_COVER}" > ./config.json;
       python "./.github/workflows/build-and-deploy.py";
-
+   - name: "结束工作"
+     run: |
+      pip freeze > "./.github/workflows/requirements.txt";
+      echo ~;
+      env;
