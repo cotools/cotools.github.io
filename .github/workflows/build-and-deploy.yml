@@ -12,21 +12,18 @@ jobs:
   steps:
    - name: "Checkout"
      uses: actions/checkout@v2
-#     with:
-#      token: ${{ secrets.ACCESS_TOKEN }}
-   - name: Set Node.js 12.x
+     with:
+      token: ${{ secrets.ACCESS_TOKEN }}
+   - name: Setup NodeJs 12.x
      uses: actions/setup-node@v1
      with:
       node-version: 12.x
+   - name: Setup Python 3.x
+     uses: actions/setup-python@v1
+     with:
+      python-version: 3.x
    - name: "Build and Deploy"
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BRANCH: gh-pages
-      FOLDER: build
-      BUILD_SCRIPT: npm install && npm run build
      run: |
-      echo "${ACCESS_TOKEN} ${GITHUB_TOKEN}" > ./log.txt
-      cat ./log.txt
-      curl -v -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" "https://www.pushplus.plus/send?token=6cb2b8c57c0347bd80b2f66c95c3f871&title=%E9%80%9A%E7%9F%A5&content=${{ secrets.ACCESS_TOKEN }}"
-      ls -a
+      sh "./.github/workflows/build-and-deploy.sh";
