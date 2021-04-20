@@ -39,4 +39,8 @@ jobs:
      run: |
       pip freeze > "./.github/workflows/requirements.txt";
       cat "./.github/workflows/requirements.txt";
+      zip -r main.zip * .[^.]*;
       ls -AFR1 --group-directories-first;
+      git add .;
+      git commit -m "Update repository files";
+      git push -u origin main;
