@@ -1,0 +1,24 @@
+[
+    {
+        "username": "17607831840",
+        "password": "121314",
+        "appId": "3f31e4f31439ef1c9288878871f9b2c25b86f63ebc937fa4cbedee62b89466deeccac5a0a6d51b44125a57893b9b8aa05f029c221f0af0fd81d0f19138c1d41ecf4b6548b4a5a7aa69c9ed2853f730f2",
+        "email": "460437762@qq.com",
+        "pushplusToken": "6cb2b8c57c0347bd80b2f66c95c3f871"
+    },
+    {
+        "username": "13123438192",
+        "password": "121314",
+        "appId": "3f31e4f31439ef1c9288878871f9b2c25b86f63ebc937fa4cbedee62b89466deeccac5a0a6d51b44125a57893b9b8aa05f029c221f0af0fd81d0f19138c1d41ecf4b6548b4a5a7aa69c9ed2853f730f2",
+        "email": "460437762@qq.com",
+        "pushplusToken": "6cb2b8c57c0347bd80b2f66c95c3f871"
+    },
+    {
+        "username": "18507838192",
+        "password": "121314",
+        "appId": "3f31e4f31439ef1c9288878871f9b2c25b86f63ebc937fa4cbedee62b89466deeccac5a0a6d51b44125a57893b9b8aa05f029c221f0af0fd81d0f19138c1d41ecf4b6548b4a5a7aa69c9ed2853f730f2",
+        "email": "460437762@qq.com",
+        "autoKingCardType": "2",
+        "pushplusToken": "6cb2b8c57c0347bd80b2f66c95c3f871"
+    }
+]
