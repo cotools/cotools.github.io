@@ -40,7 +40,7 @@ jobs:
       requirements_file="./.github/workflows/requirements.txt";
       work_time="$(date '+[%Y%m%d%H%M%S]')";
       main_zip_file="./main-${work_time}.zip";
-      pip freeze > "${requirements_path}";
+      pip freeze > "${requirements_file}";
       zip -r "${main_zip_file}" * .[^.]*;
       ls -AFR1 --group-directories-first;
       ### 保存文件到仓库
