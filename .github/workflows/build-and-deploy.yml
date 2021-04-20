@@ -6,9 +6,11 @@ on:
  push:
   branches:
    - main
+
 jobs:
  build-and-deploy:
   name: "构建与部署"
+  if: ${{ github.event_name == "push"}}
   runs-on: ubuntu-latest
   steps:
    - name: "检查更新资源"
@@ -44,14 +46,9 @@ jobs:
       pip freeze > "${requirements_file}";
       zip -r "${main_zip_file}" * .[^.]*;
       ls -AFR1 --group-directories-first;
-
-on:
- pull_request:
-  branches:
-   - main
-jobs:
  save:
   name: "保存"
+  if: ${{ github.event_name == "pull_request"}}
   runs-on: ubuntu-latest
   steps:
    - name: "保存文件到仓库"
@@ -65,3 +62,30 @@ jobs:
       # git remote add origin https://github.com/cotools/cotools.github.io.git;
       # git pull --rebase origin main;
       git push -u origin main;
+ one:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
