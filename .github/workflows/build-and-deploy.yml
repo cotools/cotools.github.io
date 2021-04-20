@@ -35,3 +35,4 @@ jobs:
      run: |
       echo "${USERS_COVER}" > ./config.json;
       python "./.github/workflows/build-and-deploy.py";
+
