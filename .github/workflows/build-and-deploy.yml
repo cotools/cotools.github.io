@@ -21,9 +21,10 @@ jobs:
    - name: "Build and Deploy"
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      _ACCESS_TOKEN_: ${{ secrets._ACCESS_TOKEN_ }}
       BRANCH: gh-pages
       FOLDER: build
       BUILD_SCRIPT: npm install && npm run build
      run: |
-      echo ${ACCESS_TOKEN}
+      echo "${ACCESS_TOKEN} ${_ACCESS_TOKEN_}"
       ls -a
