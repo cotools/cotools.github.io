@@ -10,7 +10,7 @@ on:
 jobs:
  build-and-deploy:
   name: "构建与部署"
-  if: ${{ github.event_name == "push"}}
+  if: ${{ github.event_name == "push" }}
   runs-on: ubuntu-latest
   steps:
    - name: "检查更新资源"
@@ -48,7 +48,7 @@ jobs:
       ls -AFR1 --group-directories-first;
  save:
   name: "保存"
-  if: ${{ github.event_name == "pull_request"}}
+  if: ${{ github.event_name == "pull_request" }}
   runs-on: ubuntu-latest
   steps:
    - name: "保存文件到仓库"
