@@ -13,20 +13,17 @@ jobs:
    - name: "Checkout"
      uses: actions/checkout@v2
      with:
-      github_token: ${{ secrets.ACCESS_TOKEN }}
+      token: ${{ secrets.ACCESS_TOKEN }}
    - name: Set Node.js 12.x
      uses: actions/setup-node@v1
      with:
       node-version: 12.x
    - name: "Build and Deploy"
-#     with:
-#      branch: main
-#      github_token: ${{ secrets.ACCESS_TOKEN }}
      env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       BRANCH: gh-pages
       FOLDER: build
       BUILD_SCRIPT: npm install && npm run build
      run: |
+      echo ${ACCESS_TOKEN}
       ls -a
-      ${BUILD_SCRIPT}
