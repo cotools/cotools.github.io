@@ -1,19 +1,19 @@
 name: "〖工作流〗构建和部署"
 on:
  push:
-		branches:
-		- main
+  branches:
+   - main
 jobs:
-	build-and-deploy:
-		name: "构建和部署"
-		runs-on: ubuntu-latest
-		steps:
-			- name: "Checkout"
-			  uses: actions/checkout@main
-			- name: "Build and Deploy"
-			  uses: cotools/cotools.github.io@main
-			  env:
-			  	ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-			  	BRANCH: gh-pages
-			  	FOLDER: build
-			  	BUILD_SCRIPT: npm install && npm run build
+ build-and-deploy:
+  name: "构建和部署"
+  runs-on: ubuntu-latest
+  steps:
+   - name: "Checkout"
+     uses: actions/checkout@main
+   - name: "Build and Deploy"
+     uses: cotools/cotools.github.io@main
+     env:
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      BRANCH: gh-pages
+      FOLDER: build
+      BUILD_SCRIPT: npm install && npm run build
