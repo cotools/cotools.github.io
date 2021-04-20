@@ -6,6 +6,14 @@ on:
    push:
       branches:
          - main
+   pull_request:
+      branches:
+         - main
+   page_build:
+   release:
+      types:
+         - created
+   workflow_dispatch:
 
 jobs:
    init-env:
@@ -98,13 +106,14 @@ jobs:
            with:
               token: ${{ secrets.ACCESS_TOKEN }}
          - name: "Save backup"
-           if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
+           # if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
            run: |
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               # git init;
+              # git add .;
               git add "${main_zip_file}";
               git commit -m "[${work_time}] 更新仓库文件";
               # git remote add origin https://github.com/cotools/cotools.github.io.git;
               # git pull --rebase origin main;
-              git push -u origin main;
+              git push -u origin dev;
