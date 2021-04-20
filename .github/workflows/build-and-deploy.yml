@@ -3,87 +3,87 @@
 name: "build-and-deploy"
 
 on:
- push:
-  branches:
-   - main
+   push:
+      branches:
+         - main
 
 jobs:
- build-and-deploy:
-  name: "构建与部署"
-  runs-on: ubuntu-latest
-  steps:
-   - name: "检查更新资源"
-     uses: actions/checkout@v2
-     with:
-      token: ${{ secrets.ACCESS_TOKEN }}
-   - name: "安装 NodeJs 12.x 环境"
-     uses: actions/setup-node@v2
-     with:
-      node-version: 12.x
-   - name: "安装 Python 3.x 环境"
-     uses: actions/setup-python@v2
-     with:
-      python-version: 3.x
-   - name: "设置默认时区"
-     run: |
-      sudo timedatectl set-timezone "Asia/Shanghai";
-   - name: "安装 Python 依赖项"
-     run: |
-      pip install "requests==2.20.0";
-   - name: "开始工作"
-     env:
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      USERS_COVER: ${{ secrets.USERS_COVER }}
-     run: |
-      echo "${USERS_COVER}" > "./config.json";
-      python "./.github/workflows/build-and-deploy.py";
-   - name: "结束工作"
-     run: |
-      requirements_file="./.github/workflows/requirements.txt";
-      work_time="$(date '+%Y%m%d%H%M%S')";
-      main_zip_file="./main-${work_time}.zip";
-      pip freeze > "${requirements_file}";
-      zip -r "${main_zip_file}" * .[^.]*;
-      ls -AFR1 --group-directories-first;
- save:
-  name: "保存"
-  runs-on: ubuntu-latest
-  steps:
-   - name: "保存文件到仓库"
-     if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
-     run: |
-      git config --global user.name "lyk082401";
-      git config --global user.email "lyk082401@qq.com";
-      # git init;
-      git add "${main_zip_file}";
-      git commit -m "[${work_time}] 更新仓库文件";
-      # git remote add origin https://github.com/cotools/cotools.github.io.git;
-      # git pull --rebase origin main;
-      git push -u origin main;
- one:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJSON(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJSON(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
+   init-env:
+      name: "初始化环境"
+      runs-on: ubuntu-latest
+      steps:
+         - name: "检查更新资源"
+            uses: actions/checkout@v2
+            with:
+               token: ${{ secrets.ACCESS_TOKEN }}
+         - name: "安装 NodeJs 12.x 环境"
+            uses: actions/setup-node@v2
+            with:
+               node-version: 12.x
+         - name: "安装 Python 3.x 环境"
+            uses: actions/setup-python@v2
+            with:
+               python-version: 3.x
+         - name: "设置默认时区"
+            run: |
+               sudo timedatectl set-timezone "Asia/Shanghai";
+         - name: "安装 Python 依赖项"
+            run: |
+               pip install "requests==2.20.0";
+   start-working:
+      name: "开始工作"
+      runs-on: ubuntu-latest
+      steps:
+         - name: "Start working"
+            env:
+               ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+               USERS_COVER: ${{ secrets.USERS_COVER }}
+            run: |
+               echo "${USERS_COVER}" > "./config.json";
+               python "./.github/workflows/build-and-deploy.py";
+   finish-worked:
+      name: "结束工作"
+      runs-on: ubuntu-latest
+      steps:
+         - name: "Finish worked"
+            run: |
+               requirements_file="./.github/workflows/requirements.txt";
+               work_time="$(date '+%Y%m%d%H%M%S')";
+               main_zip_file="./main-${work_time}.zip";
+               pip freeze > "${requirements_file}";
+               zip -r "${main_zip_file}" * .[^.]*;
+               ls -AFR1 --group-directories-first;
+   save-backup-file:
+      name: "保存备份文件"
+      runs-on: ubuntu-latest
+      steps:
+         - name: "Save backup"
+            if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
+            run: |
+               git config --global user.name "lyk082401";
+               git config --global user.email "lyk082401@qq.com";
+               # git init;
+               git add "${main_zip_file}";
+               git commit -m "[${work_time}] 更新仓库文件";
+               # git remote add origin https://github.com/cotools/cotools.github.io.git;
+               # git pull --rebase origin main;
+               git push -u origin main;
+   dump-env-context:
+      name: "打印环境变量"
+      runs-on: ubuntu-latest
+      steps:
+         - name: "Dump context"
+            env:
+               GITHUB_CONTEXT: ${{ toJSON(github) }}
+               JOB_CONTEXT: ${{ toJSON(job) }}
+               STEPS_CONTEXT: ${{ toJSON(steps) }}
+               RUNNER_CONTEXT: ${{ toJSON(runner) }}
+               STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+               MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+            run: |
+               echo -e "[github]\n${GITHUB_CONTEXT}";
+               echo -e "[job]\n${JOB_CONTEXT}";
+               echo -e "[steps]\n${STEPS_CONTEXT}";
+               echo -e "[runner]\n${RUNNER_CONTEXT}";
+               echo -e "[strategy]\n${STRATEGY_CONTEXT}";
+               echo -e "[matrix]\n${MATRIX_CONTEXT}";
