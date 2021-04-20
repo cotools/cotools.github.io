@@ -5,7 +5,6 @@ on:
  push:
   branches:
    - main
- pull_request:
 jobs:
  build-and-deploy:
   name: "构建与部署"
@@ -44,6 +43,17 @@ jobs:
       pip freeze > "${requirements_file}";
       zip -r "${main_zip_file}" * .[^.]*;
       ls -AFR1 --group-directories-first;
+
+name: "save"
+on:
+ pull_request:
+  branches:
+   - main
+jobs:
+ save:
+  name: "保存"
+  runs-on: ubuntu-latest
+  steps:
    - name: "保存文件到仓库"
      if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
      run: |
