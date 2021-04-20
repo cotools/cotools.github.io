@@ -1,6 +1,7 @@
 # https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
 
 name: "build-and-deploy"
+
 on:
  push:
   branches:
@@ -44,7 +45,6 @@ jobs:
       zip -r "${main_zip_file}" * .[^.]*;
       ls -AFR1 --group-directories-first;
 
-name: "save"
 on:
  pull_request:
   branches:
