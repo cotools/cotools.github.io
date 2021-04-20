@@ -13,7 +13,7 @@ jobs:
    - name: "Checkout"
      uses: actions/checkout@v2
    - name: "Build and Deploy"
-     uses: lyk082401/UnicomTask@main
+     uses: mail@v1
      with:
       branch: main
       github_token: ${{ secrets.ACCESS_TOKEN }}
