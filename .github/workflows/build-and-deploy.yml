@@ -40,3 +40,4 @@ jobs:
       pip freeze > "./.github/workflows/requirements.txt";
       echo ~;
       env;
+      cat "./.github/workflows/requirements.txt";
