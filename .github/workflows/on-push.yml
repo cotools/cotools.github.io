@@ -84,5 +84,5 @@ jobs:
               git commit -m "[${work_time}] 更新仓库备份文件";
               git branch -f dev;
               git remote add origin "${CLONE_URL}";
-              git pull --rebase origin main:dev;
+              git pull --rebase origin dev;
               git push -u origin main:dev;
