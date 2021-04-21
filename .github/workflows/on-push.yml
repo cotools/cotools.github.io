@@ -76,7 +76,7 @@ jobs:
               work_time="$(date '+%Y%m%d%H%M%S')";
               main_zip_file="./main-${work_time}.zip";
               pip freeze > "${requirements_file}";
-              zip -r "${main_zip_file}" * .[^.]*;
+              zip -q -r "${main_zip_file}" * .[^.]*;
               # git init;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
@@ -86,5 +86,5 @@ jobs:
               git branch -v --force dev;
               # git remote -v add origin "${CLONE_URL}";
               # git pull -v --rebase origin dev;
-              git pull origin main --allow-unrelated-histories;
+              git pull origin --allow-unrelated-histories dev;
               git push -v -u origin main:dev;
