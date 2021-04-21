@@ -102,9 +102,9 @@ jobs:
               git config --global user.email "lyk082401@qq.com";
               git add .;
               git commit -m "[${work_time}] 更新仓库备份文件";
-              git branch -f dev;
+              #git branch -f dev;
               #git checkout main;
-              git push -u main dev;
+              git push -u origin main;
    # save-backup-file:
       # name: "保存备份文件"
       # runs-on: ubuntu-latest
