@@ -25,7 +25,7 @@ jobs:
          - name: "[init] Checkout"
            uses: actions/checkout@v2
            with:
-              token: ${{ secrets.github_token }}
+              token: ${{ secrets.ACCESS_TOKEN }}
          # - name: "[init] 安装 NodeJs 12.x 环境"
            # uses: actions/setup-node@v2
            # with:
@@ -97,8 +97,3 @@ jobs:
               git branch --force "${branch_remote}";
               echo -e "\t将本地分支 ${branch_local} 推送到远程分支 ${branch_remote}";
               git push origin --force "${branch_local}:${branch_remote}";
-              # git push origin -v --delete dev;
-              # git branch -v --force dev;
-              # git remote -v add origin "${CLONE_URL}";
-              # git pull -v --rebase origin dev;
-              # git pull origin --allow-unrelated-histories dev;
