@@ -82,7 +82,7 @@ jobs:
               git config --global user.email "lyk082401@qq.com";
               git add -v .;
               git commit -v -m "[${work_time}] 更新仓库备份文件";
-              git branch -v -D dev;
+              git push origin -v --delete dev;
               git branch -v -f dev;
               # git remote add origin "${CLONE_URL}";
               # git pull --rebase origin dev;
