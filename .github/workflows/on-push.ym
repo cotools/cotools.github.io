@@ -1,6 +1,6 @@
 # https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
 
-name: "main-push"
+name: "on-push"
 
 on:
    push:
