@@ -40,7 +40,13 @@ jobs:
          # - name: "[init] 安装 Python 依赖项"
            # run: |
               # pip install "requests==2.20.0";
-         - name: "[envinfo] Dump info"
+         # - name: "[starting] Start working"
+           # env:
+              # GITHUB_TOKEN: ${{ secrets.github_token }}
+              # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+           # run: |
+              # # python "./.github/workflows/on-push.py";
+         - name: "[finished] Finish worked"
            env:
               CONTEXT_GITHUB: ${{ toJSON(github) }}
               CONTEXT_ENV: ${{ toJSON(env) }}
@@ -51,8 +57,19 @@ jobs:
               CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
               CONTEXT_MATRIX: ${{ toJSON(matrix) }}
               CONTEXT_NEEDS: ${{ toJSON(needs) }}
+              DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+              MASTER_BRANCH: ${{ github.event.repository.master_branch }}
+              CLONE_URL: ${{ github.event.repository.clone_url }}
            run: |
-              contextinfos_file="./.github/workflows/contextinfos.txt";
+              work_date="$(date '+%Y-%m-%d %H:%M:%S')";
+              work_time="$(date '+%Y%m%d%H%M%S')";
+              base_path="./.github/workflows";
+              branch_local="main";
+              branch_remote="dev";
+              contextinfos_file="${base_path}/${branch_local}-contextinfos-${work_time}.txt";
+              requirements_file="${base_path}/${branch_local}-requirements-${work_time}.txt";
+              release_file="${base_path}/${branch_local}-release-${work_time}.zip";
+              echo -e "\t打印环境上下文";
               echo -e "[github]\n${CONTEXT_GITHUB}" > "${contextinfos_file}";
               echo -e "[env]\n${CONTEXT_ENV}" >> "${contextinfos_file}";
               echo -e "[job]\n${CONTEXT_JOB}" >> "${contextinfos_file}";
@@ -62,25 +79,10 @@ jobs:
               echo -e "[strategy]\n${CONTEXT_STRATEGY}" >> "${contextinfos_file}";
               echo -e "[matrix]\n${CONTEXT_MATRIX}" >> "${contextinfos_file}";
               echo -e "[needs]\n${CONTEXT_NEEDS}" >> "${contextinfos_file}";
-         # - name: "[starting] Start working"
-           # env:
-              # GITHUB_TOKEN: ${{ secrets.github_token }}
-              # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-           # run: |
-              # # python "./.github/workflows/on-push.py";
-         - name: "[finished] Finish worked"
-           env:
-              DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-              MASTER_BRANCH: ${{ github.event.repository.master_branch }}
-              CLONE_URL: ${{ github.event.repository.clone_url }}
-           run: |
-              requirements_file="./.github/workflows/requirements.txt";
-              work_time="$(date '+%Y%m%d%H%M%S')";
-              zip_file="./${DEFAULT_BRANCH}-${work_time}.zip";
+              echo -e "\t打印 Python 依赖包";
               pip freeze > "${requirements_file}";
-              zip -q -r "${zip_file}" * .[^.]*;
-              branch_local="main";
-              branch_remote="dev";
+              echo -e "\t生成最新资源包";
+              zip -q -r "${release_file}" * .[^.]*;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               echo -e "\t用户信息";
