@@ -1,6 +1,6 @@
 # Events that trigger workflows: https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
-# Personal Access Tokens: https://github.com/settings/tokens
-# Repository Actions Secrets: https://github.com/cotools/cotools.github.io/settings/secrets/actions
+# Personal Access Tokens: https://github.com/settings/tokens/new
+# Repository Actions Secrets: https://github.com/cotools/cotools.github.io/settings/secrets/actions/ACCESS_TOKEN
 
 name: "on-push"
 
