@@ -77,6 +77,8 @@ jobs:
               zip_file="./${DEFAULT_BRANCH}-${work_time}.zip";
               pip freeze > "${requirements_file}";
               zip -q -r "${zip_file}" * .[^.]*;
+              branch_local="main";
+              branch_remote="dev";
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               echo -e "\t用户信息";
@@ -85,15 +87,11 @@ jobs:
               git status;
               echo -e "\t远程信息";
               git remote -v;
-              echo -e "\t添加当前目录下所有文件到暂存区";
+              echo -e "\t添加当前目录文件到暂存区中";
               git add .;
               echo -e "\t提交暂存区文件到本地仓库中";
               git commit --message "[${work_time}] 更新仓库备份文件";
-              echo -e "\t将本地分支推送到远程分支";
-              git push origin --force main:dev;
-              # git push origin -v --delete dev;
-              # git branch -v --force dev;
-              # git remote -v add origin "${CLONE_URL}";
-              # git pull -v --rebase origin dev;
-              # git pull origin --allow-unrelated-histories dev;
-              
+              echo -e "\t尝试创建远程分支 ${branch_remote}";
+              git branch --force "${branch_remote}";
+              echo -e "\t将本地分支 ${branch_local} 推送到远程分支 ${branch_remote}";
+              git push origin --force "${branch_local}:${branch_remote}";
