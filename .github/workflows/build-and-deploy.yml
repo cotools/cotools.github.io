@@ -70,7 +70,7 @@ jobs:
               echo -e "[needs]\n${NEEDS_CONTEXT}" >> "${contextinfos_file}";
               echo -e "🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙";
               pwd;
-              cat "${contextinfos_file}";
+              ls "./.github/workflows/contextinfos.txt";
    start-working:
       name: "开始工作"
       runs-on: ubuntu-latest
@@ -96,6 +96,7 @@ jobs:
               token: ${{ secrets.ACCESS_TOKEN }}
          - name: "Finish worked"
            run: |
+              ls "./.github/workflows/contextinfos.txt";
               requirements_file="./.github/workflows/requirements.txt";
               work_time="$(date '+%Y%m%d%H%M%S')";
               main_zip_file="./main-${work_time}.zip";
