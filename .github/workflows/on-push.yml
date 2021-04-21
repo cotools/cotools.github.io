@@ -15,6 +15,7 @@ on:
    # release:
       # types:
          # - created
+   repository_dispatch:
    workflow_dispatch:
 
 jobs:
@@ -83,6 +84,7 @@ jobs:
               pip freeze > "${requirements_file}";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 生成最新资源包";
               zip -q -r "${release_file}" * .[^.]*;
+              ls -AFR1 --group-directories-first / > "${base_path}/${branch_local}-dirstructures-${work_time}.txt";
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 用户信息";
@@ -99,4 +101,3 @@ jobs:
               git branch --force "${branch_remote}";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 将本地分支 ${branch_local} 推送到远程分支 ${branch_remote}";
               git push origin --force "${branch_local}:${branch_remote}";
-              ls -AFR1 --group-directories-first /home/runner/work/;
