@@ -79,9 +79,10 @@ jobs:
               zip -q -r "${zip_file}" * .[^.]*;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
-              echo -e "用户信息";
+              echo -e "\t用户信息";
               git config --list;
-              echo -e "本地状态";
+              echo -e "\t本地状态";
               git status;
-              echo -e "远程信息";
+              echo -e "\t远程信息";
               git remote -v;
+              
