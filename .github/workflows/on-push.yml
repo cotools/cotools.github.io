@@ -67,6 +67,10 @@ jobs:
            run: |
               # python "./.github/workflows/on-push.py";
          - name: "[finished] Finish worked"
+           env:
+              DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+              MASTER_BRANCH: ${{ github.event.repository.master_branch }}
+              CLONE_URL: ${{ github.event.repository.clone_url }}
            run: |
               requirements_file="./.github/workflows/requirements.txt";
               work_time="$(date '+%Y%m%d%H%M%S')";
@@ -75,29 +79,10 @@ jobs:
               zip -r "${main_zip_file}" * .[^.]*;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
+              git init;
               git add .;
               git commit -m "[${work_time}] 更新仓库备份文件";
               git branch -f dev;
+              git remote add origin "${CLONE_URL}";
               git pull --rebase origin main:dev;
               git push -u origin main:dev;
-   # save-backup-file:
-      # name: "保存备份文件"
-      # runs-on: ubuntu-latest
-      # needs: [init-env, dump-env, start-working, finish-worked]
-      # steps:
-         # - name: "Checkout"
-           # uses: actions/checkout@v2
-           # with:
-              # token: ${{ secrets.ACCESS_TOKEN }}
-         # - name: "Save backup"
-           # # if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
-           # run: |
-              # 
-              # 
-              # # git init;
-              # # git add .;
-              # 
-              # 
-              # # git remote add origin https://github.com/cotools/cotools.github.io.git;
-              # # git pull --rebase origin main;
-              # 
