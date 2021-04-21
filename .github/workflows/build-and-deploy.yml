@@ -16,37 +16,29 @@ on:
    workflow_dispatch:
 
 jobs:
-   init-env:
+   job-main:
       name: "初始化运行环境"
       runs-on: ubuntu-latest
       steps:
-         - name: "Checkout"
+         - name: "[init] Checkout"
            uses: actions/checkout@v2
            with:
               token: ${{ secrets.ACCESS_TOKEN }}
-         - name: "安装 NodeJs 12.x 环境"
+         - name: "[init] 安装 NodeJs 12.x 环境"
            uses: actions/setup-node@v2
            with:
               node-version: 12.x
-         - name: "安装 Python 3.x 环境"
+         - name: "[init] 安装 Python 3.x 环境"
            uses: actions/setup-python@v2
            with:
               python-version: 3.x
-         - name: "设置默认时区"
+         - name: "[init] 设置默认时区"
            run: |
               sudo timedatectl set-timezone "Asia/Shanghai";
-         - name: "安装 Python 依赖项"
+         - name: "[init] 安装 Python 依赖项"
            run: |
               pip install "requests==2.20.0";
-   dump-env:
-      name: "打印环境信息"
-      runs-on: ubuntu-latest
-      steps:
-         - name: "Checkout"
-           uses: actions/checkout@v2
-           with:
-              token: ${{ secrets.ACCESS_TOKEN }}
-         - name: "Dump info"
+         - name: "[envinfo] Dump info"
            env:
               GITHUB_CONTEXT: ${{ toJSON(github) }}
               ENV_CONTEXT: ${{ toJSON(env) }}
@@ -68,35 +60,13 @@ jobs:
               echo -e "[strategy]\n${STRATEGY_CONTEXT}" >> "${contextinfos_file}";
               echo -e "[matrix]\n${MATRIX_CONTEXT}" >> "${contextinfos_file}";
               echo -e "[needs]\n${NEEDS_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙🤙";
-              pwd;
-              ls "./.github/workflows/contextinfos.txt";
-   start-working:
-      name: "开始工作"
-      runs-on: ubuntu-latest
-      needs: [init-env, dump-env]
-      steps:
-         - name: "Checkout"
-           uses: actions/checkout@v2
-           with:
-              token: ${{ secrets.ACCESS_TOKEN }}
-         - name: "Start working"
+         - name: "[starting] Start working"
            env:
               ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
            run: |
               # python "./.github/workflows/build-and-deploy.py";
-   finish-worked:
-      name: "结束工作"
-      runs-on: ubuntu-latest
-      needs: [init-env, dump-env, start-working]
-      steps:
-         - name: "Checkout"
-           uses: actions/checkout@v2
-           with:
-              token: ${{ secrets.ACCESS_TOKEN }}
-         - name: "Finish worked"
+         - name: "[finished] Finish worked"
            run: |
-              ls "./.github/workflows/contextinfos.txt";
               requirements_file="./.github/workflows/requirements.txt";
               work_time="$(date '+%Y%m%d%H%M%S')";
               main_zip_file="./main-${work_time}.zip";
