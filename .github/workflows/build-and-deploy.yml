@@ -42,6 +42,10 @@ jobs:
       name: "打印环境信息"
       runs-on: ubuntu-latest
       steps:
+         - name: "Checkout"
+           uses: actions/checkout@v2
+           with:
+              token: ${{ secrets.GITHUB_TOKEN }}
          - name: "Dump info"
            env:
               GITHUB_CONTEXT: ${{ toJSON(github) }}
