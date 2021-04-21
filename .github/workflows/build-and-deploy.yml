@@ -45,7 +45,7 @@ jobs:
          - name: "Checkout"
            uses: actions/checkout@v2
            with:
-              token: ${{ secrets.GITHUB_TOKEN }}
+              token: ${{ secrets.ACCESS_TOKEN }}
          - name: "Dump info"
            env:
               GITHUB_CONTEXT: ${{ toJSON(github) }}
