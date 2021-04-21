@@ -67,6 +67,7 @@ jobs:
               MASTER_BRANCH: ${{ github.event.repository.master_branch }}
               CLONE_URL: ${{ github.event.repository.clone_url }}
            run: |
+              work_timestamp="$(date '+%s')";
               work_date="$(date '+%Y-%m-%d %H:%M:%S')";
               work_time="$(date '+%Y%m%d%H%M%S')";
               base_path="./.github/workflows";
@@ -100,7 +101,7 @@ jobs:
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 生成最新资源包";
               # zip -q -r "${release_file}" * .[^.]*;
               (
-                 cd "../" && zip -q -r "${REPO_NAME}/${release_file}" "${REPO_NAME}";
+                 cd "../" && zip -q -r "./${REPO_NAME}/${release_file}" "${REPO_NAME}";
               );
               
               git config --global user.name "lyk082401";
