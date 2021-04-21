@@ -99,6 +99,8 @@ jobs:
               git config --global user.email "lyk082401@qq.com";
               git add "${main_zip_file}";
               git commit -m "[${work_time}] 更新仓库备份文件";
+              git checkout -B dev;
+              # git checkout -B main;
               git push -u origin dev;
    # save-backup-file:
       # name: "保存备份文件"
