@@ -62,7 +62,7 @@ jobs:
               echo -e "[needs]\n${NEEDS_CONTEXT}" >> "${contextinfos_file}";
          - name: "[starting] Start working"
            env:
-              # GITHUB_TOKEN: ${{ secrets.github_token }}
+              GITHUB_TOKEN: ${{ secrets.github_token }}
               ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
            run: |
               # python "./.github/workflows/on-push.py";
