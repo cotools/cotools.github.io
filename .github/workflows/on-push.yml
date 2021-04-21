@@ -80,11 +80,11 @@ jobs:
               # git init;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
-              git add -v .;
+              git stash;git checkout dev;git stash pop;git add -v .;
               git commit -v --message "[${work_time}] 更新仓库备份文件";
-              git push origin -v --delete dev;
+              #git push origin -v --delete dev;
               git branch -v --force dev;
               # git remote -v add origin "${CLONE_URL}";
               # git pull -v --rebase origin dev;
-              git pull origin --allow-unrelated-histories dev;
+              #git pull origin --allow-unrelated-histories dev;
               git push -v -u origin main:dev;
