@@ -78,8 +78,7 @@ jobs:
               git add .;
               git commit -m "[${work_time}] 更新仓库备份文件";
               git branch -f dev;
-              #git pull --rebase origin main;
-              #git pull --rebase origin dev;
+              git pull --rebase origin main;
               git push -u origin main:dev;
    # save-backup-file:
       # name: "保存备份文件"
