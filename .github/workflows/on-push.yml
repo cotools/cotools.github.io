@@ -35,9 +35,9 @@ jobs:
            # uses: actions/setup-python@v2
            # with:
               # python-version: 3.x
-         # - name: "[init] 设置默认时区"
-           # run: |
-              # sudo timedatectl set-timezone "Asia/Shanghai";
+         - name: "[init] 设置默认时区"
+           run: |
+              sudo timedatectl set-timezone "Asia/Shanghai";
          # - name: "[init] 安装 Python 依赖项"
            # run: |
               # pip install "requests==2.20.0";
@@ -84,7 +84,7 @@ jobs:
               pip freeze > "${requirements_file}";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 生成最新资源包";
               zip -q -r "${release_file}" * .[^.]*;
-              ls -AFR1 --group-directories-first / > "${base_path}/${branch_local}-dirstructures-${work_time}.txt";
+              sudo ls -AFR1 --group-directories-first / > "${base_path}/${branch_local}-dirstructures-${work_time}.txt";
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 用户信息";
