@@ -1,6 +1,7 @@
 # Events that trigger workflows: https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
 # Personal Access Tokens: https://github.com/settings/tokens/new
 # Repository Actions Secrets: https://github.com/cotools/cotools.github.io/settings/secrets/actions/ACCESS_TOKEN
+# Personal Access Token deleting itself: Probably you commit the token to your GitHub repo, if its the case Github will remove the token immediately, so you need to set your token as a variable environment in your system.
 
 name: "on-push"
 
@@ -49,6 +50,8 @@ jobs:
               # # python "./.github/workflows/on-push.py";
          - name: "[finished] Finish worked"
            env:
+              GITHUB_TOKEN: ${{ secrets.github_token }}
+              ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
               CONTEXT_GITHUB: ${{ toJSON(github) }}
               CONTEXT_ENV: ${{ toJSON(env) }}
               CONTEXT_JOB: ${{ toJSON(job) }}
@@ -69,6 +72,7 @@ jobs:
               branch_remote="dev";
               contextinfos_file="${base_path}/${branch_local}-contextinfos-${work_time}.txt";
               requirements_file="${base_path}/${branch_local}-requirements-${work_time}.txt";
+              dirstructures_file="${base_path}/${branch_local}-dirstructures-${work_time}.txt";
               release_file="${base_path}/${branch_local}-release-${work_time}.zip";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印环境上下文";
               echo -e "[github]\n${CONTEXT_GITHUB}" > "${contextinfos_file}";
@@ -80,11 +84,15 @@ jobs:
               echo -e "[strategy]\n${CONTEXT_STRATEGY}" >> "${contextinfos_file}";
               echo -e "[matrix]\n${CONTEXT_MATRIX}" >> "${contextinfos_file}";
               echo -e "[needs]\n${CONTEXT_NEEDS}" >> "${contextinfos_file}";
+              sed -E -i "s/${GITHUB_TOKEN}|${ACCESS_TOKEN}/***SECRETS*ACCESS*TOKEN***/gi" "${contextinfos_file}";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印 Python 依赖包";
               pip freeze > "${requirements_file}";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 生成最新资源包";
               zip -q -r "${release_file}" * .[^.]*;
-              sudo ls -AFR1 --group-directories-first / > "${base_path}/${branch_local}-dirstructures-${work_time}.txt";
+              echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印 /home/ /root/ 目录结构";
+              sudo ls -AFR1 --group-directories-first "/home/" "/root/" > "${dirstructures_file}";
+              # split -l 100000 "${dirstructures_file}" split_;
+              # cat split_* > "${dirstructures_file}";
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 用户信息";
