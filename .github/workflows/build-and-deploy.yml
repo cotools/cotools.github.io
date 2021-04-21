@@ -96,10 +96,9 @@ jobs:
               zip -r "${main_zip_file}" * .[^.]*;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
-              git add "${main_zip_file}";
+              git add .;
               git commit -m "[${work_time}] 更新仓库备份文件";
-              git checkout -B dev;
-              git checkout -B main;
+              git branch -f dev;
               git push -u origin dev;
    # save-backup-file:
       # name: "保存备份文件"
