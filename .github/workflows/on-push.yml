@@ -82,8 +82,8 @@ jobs:
               git config --global user.email "lyk082401@qq.com";
               git add -v .;
               git commit -v --message "[${work_time}] 更新仓库备份文件";
-              git push origin -v --delete dev;
+              git push origin -v --force --delete dev;
               git branch -v --force dev;
               # git remote -v add origin "${CLONE_URL}";
               # git pull -v --rebase origin dev; 
-              git push -v --set-upstream origin main:dev;
+              git push origin -v --set-upstream main:dev;
