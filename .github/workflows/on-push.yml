@@ -77,12 +77,12 @@ jobs:
               main_zip_file="./main-${work_time}.zip";
               pip freeze > "${requirements_file}";
               zip -r "${main_zip_file}" * .[^.]*;
+              git init;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
-              git init;
               git add .;
               git commit -m "[${work_time}] 更新仓库备份文件";
               git branch -f dev;
-              git remote add origin "${CLONE_URL}";
-              git pull --rebase origin dev;
+              #git remote add origin "${CLONE_URL}";
+              git pull# --rebase origin dev;
               git push -u origin main:dev;
