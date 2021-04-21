@@ -17,7 +17,7 @@ on:
 
 jobs:
    on-push:
-      name: "On push"
+      name: "On Push"
       runs-on: ubuntu-latest
       steps:
          - name: "[init] Checkout"
@@ -40,26 +40,26 @@ jobs:
               pip install "requests==2.20.0";
          - name: "[envinfo] Dump info"
            env:
-              GITHUB_CONTEXT: ${{ toJSON(github) }}
-              ENV_CONTEXT: ${{ toJSON(env) }}
-              JOB_CONTEXT: ${{ toJSON(job) }}
-              STEPS_CONTEXT: ${{ toJSON(steps) }}
-              RUNNER_CONTEXT: ${{ toJSON(runner) }}
-              SECRETS_CONTEXT: ${{ toJSON(secrets) }}
-              STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-              MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-              NEEDS_CONTEXT: ${{ toJSON(needs) }}
+              CONTEXT_GITHUB: ${{ toJSON(github) }}
+              CONTEXT_ENV: ${{ toJSON(env) }}
+              CONTEXT_JOB: ${{ toJSON(job) }}
+              CONTEXT_STEPS: ${{ toJSON(steps) }}
+              CONTEXT_RUNNER: ${{ toJSON(runner) }}
+              CONTEXT_SECRETS: ${{ toJSON(secrets) }}
+              CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
+              CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+              CONTEXT_NEEDS: ${{ toJSON(needs) }}
            run: |
               contextinfos_file="./.github/workflows/contextinfos.txt";
-              echo -e "[github]\n${GITHUB_CONTEXT}" > "${contextinfos_file}";
-              echo -e "[env]\n${ENV_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[job]\n${JOB_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[steps]\n${STEPS_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[runner]\n${RUNNER_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[secrets]\n${SECRETS_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[strategy]\n${STRATEGY_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[matrix]\n${MATRIX_CONTEXT}" >> "${contextinfos_file}";
-              echo -e "[needs]\n${NEEDS_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[github]\n${CONTEXT_GITHUB}" > "${contextinfos_file}";
+              echo -e "[env]\n${CONTEXT_ENV}" >> "${contextinfos_file}";
+              echo -e "[job]\n${CONTEXT_JOB}" >> "${contextinfos_file}";
+              echo -e "[steps]\n${CONTEXT_STEPS}" >> "${contextinfos_file}";
+              echo -e "[runner]\n${CONTEXT_RUNNER}" >> "${contextinfos_file}";
+              echo -e "[secrets]\n${CONTEXT_SECRETS}" >> "${contextinfos_file}";
+              echo -e "[strategy]\n${CONTEXT_STRATEGY}" >> "${contextinfos_file}";
+              echo -e "[matrix]\n${CONTEXT_MATRIX}" >> "${contextinfos_file}";
+              echo -e "[needs]\n${CONTEXT_NEEDS}" >> "${contextinfos_file}";
          - name: "[starting] Start working"
            env:
               GITHUB_TOKEN: ${{ secrets.github_token }}
@@ -74,17 +74,14 @@ jobs:
            run: |
               requirements_file="./.github/workflows/requirements.txt";
               work_time="$(date '+%Y%m%d%H%M%S')";
-              main_zip_file="./main-${work_time}.zip";
+              zip_file="./${DEFAULT_BRANCH}-${work_time}.zip";
               pip freeze > "${requirements_file}";
-              zip -q -r "${main_zip_file}" * .[^.]*;
-              # git init;
+              zip -q -r "${zip_file}" * .[^.]*;
+              # 提交用户信息
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
-              git branch --force dev;git add .;git stash;git checkout dev;git stash pop;
-              git commit --message "[${work_time}] 更新仓库备份文件";
-              #git push origin -v --delete dev;
+              # 查看本地状态
+              git status;
+              # 查看远程信息
+              git remote -v;
               
-              # git remote -v add origin "${CLONE_URL}";
-              # git pull -v --rebase origin dev;
-              #git pull origin --allow-unrelated-histories dev;
-              git push -u origin main:dev;
