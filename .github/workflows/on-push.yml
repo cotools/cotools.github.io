@@ -77,7 +77,7 @@ jobs:
               main_zip_file="./main-${work_time}.zip";
               pip freeze > "${requirements_file}";
               zip -r "${main_zip_file}" * .[^.]*;
-              git init;
+              # git init;
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
               git add -v .;
