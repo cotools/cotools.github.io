@@ -86,4 +86,4 @@ jobs:
               git branch -v --force dev;
               # git remote -v add origin "${CLONE_URL}";
               # git pull -v --rebase origin dev;
-              git push -v --update origin main:dev;
+              git push -v --set-upstream origin main:dev;
