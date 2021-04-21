@@ -99,7 +99,9 @@ jobs:
               
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 生成最新资源包";
               # zip -q -r "${release_file}" * .[^.]*;
-              zip -q -r "${release_file}" "../${REPO_NAME}";
+              (
+                 cd "../" && zip -q -r "${release_file}" "${REPO_NAME}";
+              );
               
               git config --global user.name "lyk082401";
               git config --global user.email "lyk082401@qq.com";
