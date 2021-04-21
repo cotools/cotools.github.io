@@ -54,15 +54,16 @@ jobs:
               MATRIX_CONTEXT: ${{ toJSON(matrix) }}
               NEEDS_CONTEXT: ${{ toJSON(needs) }}
            run: |
-              echo -e "[github]\n${GITHUB_CONTEXT}";
-              echo -e "[env]\n${ENV_CONTEXT}";
-              echo -e "[job]\n${JOB_CONTEXT}";
-              echo -e "[steps]\n${STEPS_CONTEXT}";
-              echo -e "[runner]\n${RUNNER_CONTEXT}";
-              echo -e "[secrets]\n${SECRETS_CONTEXT}";
-              echo -e "[strategy]\n${STRATEGY_CONTEXT}";
-              echo -e "[matrix]\n${MATRIX_CONTEXT}";
-              echo -e "[needs]\n${NEEDS_CONTEXT}";
+              contextinfos_file="./.github/workflows/contextinfos.txt";
+              echo -e "[github]\n${GITHUB_CONTEXT}" > "${contextinfos_file}";
+              echo -e "[env]\n${ENV_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[job]\n${JOB_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[steps]\n${STEPS_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[runner]\n${RUNNER_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[secrets]\n${SECRETS_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[strategy]\n${STRATEGY_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[matrix]\n${MATRIX_CONTEXT}" >> "${contextinfos_file}";
+              echo -e "[needs]\n${NEEDS_CONTEXT}" >> "${contextinfos_file}";
    start-working:
       name: "开始工作"
       runs-on: ubuntu-latest
@@ -75,10 +76,8 @@ jobs:
          - name: "Start working"
            env:
               ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-              USERS_COVER: ${{ secrets.USERS_COVER }}
            run: |
-              echo "${USERS_COVER}" > "./config.json";
-              python "./.github/workflows/build-and-deploy.py";
+              # python "./.github/workflows/build-and-deploy.py";
    finish-worked:
       name: "结束工作"
       runs-on: ubuntu-latest
