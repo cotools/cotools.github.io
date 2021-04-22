@@ -30,6 +30,7 @@ jobs:
       env:
          GITHUB_TOKEN: ${{ secrets.github_token }}
          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+         GITHUB_EVENT_NAME: ${{ github.event_name }}
          # 分支或标记引用 "refs/heads/<branch_name>" "refs/tags/<tag_name>"
          GITHUB_REF: ${{ github.event.ref }}
          # 仓库名
@@ -108,7 +109,7 @@ jobs:
               current_branch="`echo -e \"${GITHUB_REF}\" | tr \"/\" \"\n\" | sed -n '\$p'`";
               branch_local="main";
               branch_remote="dev";
-              file_prefix="${current_branch}-";
+              file_prefix="${current_branch}-${GITHUB_EVENT_NAME}-";
               file_suffix=""; # "-${work_time}";
               contextinfos_file="${base_path}/${file_prefix}contextinfos${file_suffix}.txt";
               requirements_file="${base_path}/${file_prefix}requirements${file_suffix}.txt";
