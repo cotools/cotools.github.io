@@ -93,10 +93,12 @@ jobs:
               base_path="./.github/workflows";
               branch_local="main";
               branch_remote="dev";
-              contextinfos_file="${base_path}/${branch_local}-contextinfos-${work_time}.txt";
-              requirements_file="${base_path}/${branch_local}-requirements-${work_time}.txt";
-              dirstructures_file="${base_path}/${branch_local}-dirstructures-${work_time}.txt";
-              release_file="${base_path}/${branch_local}-release-${work_time}.zip";
+              file_prefix="${branch_local}-";
+              file_suffix=""; # "-${work_time}";
+              contextinfos_file="${base_path}/${file_prefix}contextinfos${file_suffix}.txt";
+              requirements_file="${base_path}/${file_prefix}requirements${file_suffix}.txt";
+              dirstructures_file="${base_path}/${file_prefix}dirstructures${file_suffix}.txt";
+              release_file="${base_path}/${file_prefix}release${file_suffix}.zip";
               
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印环境上下文";
               echo -e "[github]\n${CONTEXT_GITHUB}" > "${contextinfos_file}";
