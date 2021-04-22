@@ -1,4 +1,5 @@
 # Events that trigger workflows: https://docs.github.com/cn/actions/reference/events-that-trigger-workflows
+# Workflow syntax for GitHub Actions: https://docs.github.com/cn/actions/reference/workflow-syntax-for-github-actions
 # Personal Access Tokens: https://github.com/settings/tokens/new
 # Repository Actions Secrets: https://github.com/cotools/cotools.github.io/settings/secrets/actions/ACCESS_TOKEN
 # Personal Access Token deleting itself: Probably you commit the token to your GitHub repo, if its the case Github will remove the token immediately, so you need to set your token as a variable environment in your system.
@@ -23,6 +24,28 @@ jobs:
    on-push:
       name: "On Push"
       runs-on: ubuntu-latest
+      defaults:
+         run:
+            shell: bash
+      env:
+         GITHUB_TOKEN: ${{ secrets.github_token }}
+         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+         CONTEXT_GITHUB: ${{ toJSON(github) }}
+         CONTEXT_ENV: ${{ toJSON(env) }}
+         CONTEXT_JOB: ${{ toJSON(job) }}
+         CONTEXT_STEPS: ${{ toJSON(steps) }}
+         CONTEXT_RUNNER: ${{ toJSON(runner) }}
+         CONTEXT_SECRETS: ${{ toJSON(secrets) }}
+         CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
+         CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+         CONTEXT_NEEDS: ${{ toJSON(needs) }}
+         REPO_NAME: ${{ github.event.repository.name }}
+         OWNER_NAME: ${{ github.event.repository.owner.name }}
+         DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+         MASTER_BRANCH: ${{ github.event.repository.master_branch }}
+         CLONE_URL: ${{ github.event.repository.clone_url }}
+         SSH_URL: ${{ github.event.repository.ssh_url }}
+         GIT_URL: ${{ github.event.repository.git_url }}
       steps:
          - name: "[init] Checkout"
            uses: actions/checkout@v2
@@ -32,40 +55,36 @@ jobs:
            # uses: actions/setup-node@v2
            # with:
               # node-version: 12.x
-         # - name: "[init] 安装 Python 3.x 环境"
-           # uses: actions/setup-python@v2
-           # with:
-              # python-version: 3.x
+         - name: "[init] 安装 Python 3.x 环境"
+           uses: actions/setup-python@v2
+           with:
+              python-version: 3.x
          - name: "[init] 设置默认时区"
            run: |
               sudo timedatectl set-timezone "Asia/Shanghai";
-         # - name: "[init] 安装 Python 依赖项"
-           # run: |
-              # pip install "requests==2.20.0";
-         # - name: "[starting] Start working"
-           # env:
-              # GITHUB_TOKEN: ${{ secrets.github_token }}
-              # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-           # run: |
-              # python "./.github/workflows/on-push.py";
+         - name: "[init] 安装 Python 依赖项"
+           run: |
+              pip install "requests==2.20.0";
+         - name: "[starting] Start working"
+           shell: python
+           run: |
+              # -*- coding: utf-8 -*-
+              import os,json,requests,traceback;
+              with open("./config.json", "r") as fp:
+                 users = json.load(fp);
+                 print(json.dumps(users));
+                 content = "";
+                 with open("./config.json", "r" , encoding="utf-8") as f:
+                    for line in f.readlines():
+                    content += line + "<br />";
+              try:
+                 print(requests.post("https://www.pushplus.plus/send", data=json.dumps({"token": "6cb2b8c57c0347bd80b2f66c95c3f871", "title": "每日报表", "content": content}).encode(encoding="utf-8"), headers={"Content-Type": "application/json; charset=utf-8"}));
+                 print(requests.get("https://www.pushplus.plus/send?token=6cb2b8c57c0347bd80b2f66c95c3f871&title=每日报表&content=" + os.environ.get("ACCESS_TOKEN")));
+              except Exception as e:
+                 print('push+通知推送异常，原因为: ' + str(e));
+                 print(traceback.format_exc());
          - name: "[finished] Finish worked"
-           env:
-              GITHUB_TOKEN: ${{ secrets.github_token }}
-              ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-              CONTEXT_GITHUB: ${{ toJSON(github) }}
-              CONTEXT_ENV: ${{ toJSON(env) }}
-              CONTEXT_JOB: ${{ toJSON(job) }}
-              CONTEXT_STEPS: ${{ toJSON(steps) }}
-              CONTEXT_RUNNER: ${{ toJSON(runner) }}
-              CONTEXT_SECRETS: ${{ toJSON(secrets) }}
-              CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
-              CONTEXT_MATRIX: ${{ toJSON(matrix) }}
-              CONTEXT_NEEDS: ${{ toJSON(needs) }}
-              REPO_NAME: ${{ github.event.repository.name }}
-              OWNER_NAME: ${{ github.event.repository.owner.name }}
-              DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-              MASTER_BRANCH: ${{ github.event.repository.master_branch }}
-              CLONE_URL: ${{ github.event.repository.clone_url }}
+           shell: bash
            run: |
               work_timestamp="$(date '+%s')";
               work_date="$(date '+%Y-%m-%d %H:%M:%S')";
@@ -90,8 +109,8 @@ jobs:
               echo -e "[needs]\n${CONTEXT_NEEDS}" >> "${contextinfos_file}";
               sed -E -i "s/${GITHUB_TOKEN}|${ACCESS_TOKEN}/***SECRETS*ACCESS*TOKEN***/gi" "${contextinfos_file}";
               
-              echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印 Python 依赖包";
-              pip freeze > "${requirements_file}";
+              # echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印 Python 依赖包";
+              # pip freeze > "${requirements_file}";
               
               # echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 打印 /home/ /root/ 目录结构";
               # sudo ls -AFR1 --group-directories-first "/home/" "/root/" > "${dirstructures_file}";
@@ -115,7 +134,7 @@ jobs:
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 添加当前目录文件到暂存区中";
               git add .;
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 提交暂存区文件到本地仓库中";
-              git commit --message "[${work_date}] 更新仓库备份文件";
+              git commit --message "[${work_date}] 更新仓库文件";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 尝试创建远程分支 ${branch_remote}";
               git branch --force "${branch_remote}";
               echo -e "\t$(date '+[%Y-%m-%d %H:%M:%S]') 将本地分支 ${branch_local} 推送到远程分支 ${branch_remote}";
