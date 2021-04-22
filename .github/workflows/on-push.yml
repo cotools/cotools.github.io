@@ -91,7 +91,7 @@ jobs:
               work_date="$(date '+%Y-%m-%d %H:%M:%S')";
               work_time="$(date '+%Y%m%d%H%M%S')";
               base_path="./.github/workflows";
-              branch_local="dev";
+              branch_local="main";
               branch_remote="dev";
               file_prefix="${branch_local}-";
               file_suffix=""; # "-${work_time}";
