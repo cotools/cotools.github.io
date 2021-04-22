@@ -21,7 +21,7 @@ on:
    workflow_dispatch:
 
 jobs:
-   on-push:
+   onPush:
       name: "On Push"
       runs-on: ubuntu-latest
       defaults:
@@ -30,6 +30,7 @@ jobs:
       env:
          GITHUB_TOKEN: ${{ secrets.github_token }}
          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+         # 事件名
          GITHUB_EVENT_NAME: ${{ github.event_name }}
          # 分支或标记引用 "refs/heads/<branch_name>" "refs/tags/<tag_name>"
          GITHUB_REF: ${{ github.event.ref }}
