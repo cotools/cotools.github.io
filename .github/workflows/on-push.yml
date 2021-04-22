@@ -89,7 +89,7 @@ jobs:
                  # print('push+通知推送异常，原因为: ' + str(e));
                  # print(traceback.format_exc());
          - name: "[finished] Finish worked"
-           if: ${{ github.event.ref == "refs/heads/main" }}
+           if: ${{ github.event.ref == 'refs/heads/main' }}
            shell: bash
            env:
               CONTEXT_GITHUB: ${{ toJSON(github) }}
