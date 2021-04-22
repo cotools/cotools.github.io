@@ -31,4 +31,4 @@ jobs:
          - name: "[finished] Finish worked"
            shell: bash
            run: |
-              echo '${{ join("refs/heads/main", "/") }}'
+              echo '${{ join }}'
