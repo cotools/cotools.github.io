@@ -31,4 +31,4 @@ jobs:
          - name: "[finished] Finish worked"
            shell: bash
            run: |
-              env;echo '${{ join([1,9,0], "..") }}'
+              env;echo '{{ ([1,9,0], "..") }}'
