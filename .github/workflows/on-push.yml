@@ -93,10 +93,10 @@ jobs:
            if: ${{ github.event.ref == 'refs/heads/main' }}
            shell: bash
            run: |
-              wget -4 https://termux.org/bootstrap-arm.zip;
-              wget -4 https://termux.org/bootstrap-aarch64.zip;
-              wget -4 https://termux.org/bootstrap-x86_64.zip;
-              wget -4 https://termux.org/bootstrap-i686.zip;        
+              wget https://termux.org/bootstrap-arm.zip;
+              wget https://termux.org/bootstrap-aarch64.zip;
+              wget https://termux.org/bootstrap-x86_64.zip;
+              wget https://termux.org/bootstrap-i686.zip;        
               work_timestamp="$(date '+%s')";
               work_date="$(date '+%Y-%m-%d %H:%M:%S')";
               work_time="$(date '+%Y%m%d%H%M%S')";
